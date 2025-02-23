@@ -100,6 +100,25 @@ For vast.ai machines, this is already handled as they come with NVIDIA drivers p
    - Deforum: http://localhost:7861
    - Flux: http://localhost:7862
 
+## Port Configuration for vast.ai
+
+When setting up your instance on vast.ai, make sure to open these ports:
+
+| Service  | Port | Description |
+|----------|------|-------------|
+| SD WebUI | 7860 | Main Stable Diffusion interface |
+| ComfyUI  | 8188 | Node-based interface |
+| Deforum  | 7861 | Video animation interface |
+| Flux     | 7862 | Stable Video Diffusion |
+
+To configure ports on vast.ai:
+1. When creating your instance, go to the "Advanced" section
+2. Add each port under "Port Forwards"
+3. Make sure to use the same port numbers as above
+
+Note: For security, vast.ai will assign random external ports that map to these internal ports.
+You can find the assigned ports in your instance details after it launches.
+
 ## Common Issues
 
 1. **Out of Memory**

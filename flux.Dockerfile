@@ -12,7 +12,8 @@ WORKDIR /stable-diffusion-webui
 
 # Clone SD WebUI and Flux
 RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git .
-RUN git clone https://github.com/Portwave/sdvn-auto extensions/sd-webui-stable-video-diffusion
+RUN git clone https://github.com/Stability-AI/generative-models.git extensions/stable-video-diffusion
+RUN pip3 install -e extensions/stable-video-diffusion
 
 RUN pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 RUN pip3 install -r requirements.txt
@@ -20,4 +21,4 @@ RUN pip3 install xformers
 
 EXPOSE 7860
 
-CMD ["python3", "launch.py", "--listen", "--xformers", "--enable-insecure-extension-access"] 
+CMD ["python3", "launch.py", "--listen", "--xformers", "--enable-insecure-extension-access", "--api"] 

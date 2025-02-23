@@ -10,10 +10,14 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /ComfyUI
 
+# Clone latest ComfyUI
 RUN git clone https://github.com/comfyanonymous/ComfyUI.git .
+
+# Install latest PyTorch with CUDA support
 RUN pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 RUN pip3 install -r requirements.txt
+RUN pip3 install xformers==0.0.23.post1
 
 EXPOSE 8188
 
-CMD ["python3", "main.py", "--listen"] 
+CMD ["python3", "main.py", "--listen", "--port", "8188"] 

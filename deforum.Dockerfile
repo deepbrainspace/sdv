@@ -10,15 +10,17 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /stable-diffusion-webui
 
+# Clone latest SD WebUI
 RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git .
+
+# Install latest PyTorch with CUDA support
 RUN pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
-
 RUN pip3 install -r requirements.txt
-RUN pip3 install xformers
+RUN pip3 install xformers==0.0.23.post1
 
-# Install Deforum extension
+# Install latest Deforum
 RUN git clone https://github.com/deforum-art/deforum-for-automatic1111-webui extensions/deforum
 
 EXPOSE 7860
 
-CMD ["python3", "launch.py", "--listen", "--xformers", "--enable-insecure-extension-access"] 
+CMD ["python3", "launch.py", "--listen", "--xformers", "--enable-insecure-extension-access", "--api"] 
