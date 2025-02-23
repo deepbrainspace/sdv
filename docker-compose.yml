@@ -50,4 +50,21 @@ services:
           devices:
             - driver: nvidia
               count: 1
+              capabilities: [gpu]
+
+  flux:
+    build:
+      context: .
+      dockerfile: flux.Dockerfile
+    ports:
+      - "7862:7860"
+    volumes:
+      - ./flux-models:/stable-diffusion-webui/models
+      - ./flux-outputs:/stable-diffusion-webui/outputs
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
               capabilities: [gpu] 

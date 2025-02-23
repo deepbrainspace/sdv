@@ -1,0 +1,10 @@
+# Use git-crypt to encrypt sensitive files
+.env filter=git-crypt diff=git-crypt
+secrets/** filter=git-crypt diff=git-crypt
+keys/** filter=git-crypt diff=git-crypt
+
+# Handle large files with Git LFS
+*.safetensors filter=lfs diff=lfs merge=lfs -text
+*.ckpt filter=lfs diff=lfs merge=lfs -text
+*.pt filter=lfs diff=lfs merge=lfs -text
+*.pth filter=lfs diff=lfs merge=lfs -text 

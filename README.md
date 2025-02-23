@@ -21,6 +21,12 @@ This repository contains a Docker-based setup for running Stable Diffusion with 
    - Animation capabilities
    - Built as an extension for SD WebUI
 
+4. **Stable Video Diffusion (Flux)**
+   - Specialized in consistent video generation
+   - Better motion preservation between frames
+   - Ideal for music videos and character consistency
+   - Works alongside Deforum for different video needs
+
 ## Storage Requirements
 
 Minimum recommended space: 100GB
@@ -92,6 +98,7 @@ For vast.ai machines, this is already handled as they come with NVIDIA drivers p
    - SD WebUI: http://localhost:7860
    - ComfyUI: http://localhost:8188
    - Deforum: http://localhost:7861
+   - Flux: http://localhost:7862
 
 ## Common Issues
 
@@ -134,4 +141,33 @@ For a 173GB vast.ai machine:
 - Keep ~20GB free for temporary files and processing
 
 Monitor your storage usage regularly, especially when generating videos with Deforum.
+
+## Model Management
+
+### Using Hugging Face for Models
+1. Create a private repository on Hugging Face
+2. Upload your models using git-lfs
+3. Use the provided `download-models.sh` script to fetch and distribute models
+4. Models will be automatically symlinked to all interfaces
+
+### Model Organization on Hugging Face
+```
+models-repo/
+├── sd/              # Base models
+├── vae/             # VAE models
+└── controlnet/      # ControlNet models
+```
+
+## Video Generation Strategy
+
+For best results with music videos:
+1. Use Flux for:
+   - Character consistency
+   - Smooth transitions
+   - Realistic motion
+
+2. Use Deforum for:
+   - Complex camera movements
+   - Special effects
+   - Artistic transitions
 
