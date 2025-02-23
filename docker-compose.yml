@@ -1,0 +1,53 @@
+services:
+  sd-webui:
+    build:
+      context: .
+      dockerfile: sd.Dockerfile
+    ports:
+      - "7860:7860"
+    volumes:
+      - ./models:/stable-diffusion-webui/models
+      - ./outputs:/stable-diffusion-webui/outputs
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+
+  comfyui:
+    build:
+      context: .
+      dockerfile: comfy.Dockerfile
+    ports:
+      - "8188:8188"
+    volumes:
+      - ./comfy-models:/ComfyUI/models
+      - ./comfy-outputs:/ComfyUI/output
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  deforum:
+    build:
+      context: .
+      dockerfile: deforum.Dockerfile
+    ports:
+      - "7861:7860"
+    volumes:
+      - ./deforum-models:/stable-diffusion-webui/models
+      - ./deforum-outputs:/stable-diffusion-webui/outputs
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu] 
