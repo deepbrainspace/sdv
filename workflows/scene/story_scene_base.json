@@ -1,0 +1,61 @@
+{
+    "name": "Story Scene - Base Version",
+    "description": "Generate story scenes with basic SD model",
+    "metadata": {
+        "version": "1.0",
+        "required_models": [
+            "sd_3.5_base",
+            "control_v11p_sd15_depth"
+        ],
+        "recommended_vram": "8GB",
+        "tags": ["scene", "story", "base"]
+    },
+    "default_prompt": {
+        "scene_description": "magical forest path, sunbeams through trees, mystical atmosphere",
+        "style": "cinematic, dramatic lighting, golden hour",
+        "negative": "blurry, bad quality, noise"
+    },
+    "nodes": {
+        "1": {
+            "class_type": "CheckpointLoaderSimple",
+            "inputs": {
+                "ckpt_name": "sd_3.5_base.safetensors"
+            }
+        },
+        "2": {
+            "class_type": "CLIPTextEncode",
+            "inputs": {
+                "clip": ["1", 1],
+                "text": "magical forest path, sunbeams through trees, mystical atmosphere, cinematic, dramatic lighting, golden hour"
+            }
+        },
+        "3": {
+            "class_type": "CLIPTextEncode",
+            "inputs": {
+                "clip": ["1", 1],
+                "text": "blurry, bad quality, noise"
+            }
+        },
+        "4": {
+            "class_type": "EmptyLatentImage",
+            "inputs": {
+                "batch_size": 1,
+                "height": 512,
+                "width": 768
+            }
+        },
+        "5": {
+            "class_type": "KSampler",
+            "inputs": {
+                "cfg": 7,
+                "denoise": 1,
+                "latent_image": ["4", 0],
+                "model": ["1", 0],
+                "negative": ["3", 0],
+                "positive": ["2", 0],
+                "seed": 8566257,
+                "steps": 20
+            }
+        }
+    }
+} 

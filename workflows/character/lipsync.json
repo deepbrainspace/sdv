@@ -1,7 +1,47 @@
 {
-    "name": "Character Lip Sync",
-    "description": "Character animation with audio sync",
+    "name": "Character Lip Sync Animation",
+    "description": "Character animation with synchronized lip movement and audio",
+    "metadata": {
+        "version": "1.0",
+        "required_models": [
+            "sd_3.5_base",
+            "mm_sd_v15_v2",
+            "control_v11p_sd15_openpose",
+            "control_v11p_sd15_depth"
+        ],
+        "recommended_vram": "16GB",
+        "tags": ["character", "animation", "lipsync", "audio"]
+    },
+    "default_prompt": {
+        "positive": "masterpiece, best quality, 1girl, white hair, blue eyes, talking, moving lips, speaking, facing camera, upper body",
+        "negative": "bad hands, bad face, bad quality, blurry, static mouth, closed mouth"
+    },
     "nodes": {
-        // Will provide full workflow JSON
+        "4": {
+            "class_type": "CheckpointLoaderSimple",
+            "inputs": {
+                "ckpt_name": "sd_3.5_base.safetensors"
+            }
+        },
+        "5": {
+            "class_type": "AudioToLipSync",
+            "inputs": {
+                "audio_file": "input_audio.wav",
+                "frame_rate": 24,
+                "duration": 5
+            }
+        },
+        "6": {
+            "class_type": "ControlNetLoader",
+            "inputs": {
+                "control_net_name": "control_v11p_sd15_openpose.pth"
+            }
+        },
+        "7": {
+            "class_type": "ControlNetLoader",
+            "inputs": {
+                "control_net_name": "control_v11p_sd15_depth.pth"
+            }
+        }
     }
 } 

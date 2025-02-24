@@ -1,0 +1,35 @@
+{
+    "name": "Story Scene - Advanced Version",
+    "description": "Generate cinematic scenes with advanced models and motion",
+    "metadata": {
+        "version": "1.0",
+        "required_models": [
+            "sd_3.5_large",
+            "svd_xt",
+            "mm_sd_v15_v2",
+            "control_v11p_sd15_depth"
+        ],
+        "recommended_vram": "24GB",
+        "tags": ["scene", "story", "advanced", "motion"]
+    },
+    "default_prompt": {
+        "scene_description": "magical forest path, sunbeams through trees, mystical atmosphere",
+        "style": "cinematic, dramatic lighting, golden hour, high quality, detailed",
+        "motion": "slow camera movement, gentle breeze, leaves falling",
+        "negative": "blurry, bad quality, noise, static, choppy movement"
+    },
+    "nodes": {
+        "1": {
+            "class_type": "CheckpointLoaderSimple",
+            "inputs": {
+                "ckpt_name": "sd_3.5_large.safetensors"
+            }
+        },
+        "2": {
+            "class_type": "SVDLoader",
+            "inputs": {
+                "model_name": "svd_xt.safetensors"
+            }
+        }
+    }
+} 

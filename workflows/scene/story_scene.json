@@ -1,0 +1,22 @@
+{
+    "name": "Narrative Scene Generation",
+    "description": "Generate story-driven scenes with camera movement and transitions",
+    "metadata": {
+        "version": "1.0",
+        "required_models": [
+            "sd_3.5_large",
+            "control_v11p_sd15_depth",
+            "svd_xt"
+        ],
+        "recommended_vram": "24GB",
+        "tags": ["scene", "story", "camera", "transition"]
+    },
+    "default_prompt": {
+        "scene_description": "magical forest path, sunbeams through trees, mystical atmosphere",
+        "camera_movement": "slow dolly forward, slight pan right",
+        "style": "cinematic, dramatic lighting, golden hour"
+    },
+    "nodes": {
+        // Will provide full workflow
+    }
+} 
