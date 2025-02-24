@@ -40,16 +40,27 @@ For your 173GB vast.ai machine, this should be sufficient for starting out.
 ## Required Models
 
 ### Base Models (Required)
-1. Stable Diffusion base model (choose one):
-   - [SD 1.5](https://huggingface.co/runwayml/stable-diffusion-v1-5)
-   - [SD XL](https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0)
+- Location: `models-repo/sd/`
+1. Stable Diffusion Models:
+   - [SD 1.5](https://huggingface.co/runwayml/stable-diffusion-v1-5) (`sd-v1-5.safetensors`)
+   - [SDXL](https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0) (`stable-diffusion-xl-base-1.0.safetensors`)
    
 ### Optional but Recommended
-2. VAE:
-   - [SD VAE](https://huggingface.co/stabilityai/sd-vae-ft-mse)
-3. ControlNet models:
+- Location: `models-repo/vae/`
+2. VAE Models:
+   - [SDXL VAE](https://huggingface.co/stabilityai/sdxl-vae) (`sdxl_vae.safetensors`)
+   - [SD 1.5 VAE](https://huggingface.co/stabilityai/sd-vae-ft-mse) (`sd-vae-ft-mse.safetensors`)
+
+- Location: `models-repo/controlnet/`
+3. ControlNet Models:
    - [Canny](https://huggingface.co/lllyasviel/ControlNet-v1-1/blob/main/control_v11p_sd15_canny.pth)
    - [Openpose](https://huggingface.co/lllyasviel/ControlNet-v1-1/blob/main/control_v11p_sd15_openpose.pth)
+   - [Depth](https://huggingface.co/lllyasviel/ControlNet-v1-1/blob/main/control_v11p_sd15_depth.pth)
+
+- Location: `models-repo/svd/`
+4. Stable Video Diffusion Models:
+   - [SVD](https://huggingface.co/stabilityai/stable-video-diffusion) (`svd.safetensors`)
+   - [SVD-XT](https://huggingface.co/stabilityai/stable-video-diffusion) (`svd_xt.safetensors`)
 
 ## Model Placement
 
@@ -171,10 +182,20 @@ Monitor your storage usage regularly, especially when generating videos with Def
 
 ### Model Organization on Hugging Face
 ```
-models-repo/
-├── sd/              # Base models
-├── vae/             # VAE models
-└── controlnet/      # ControlNet models
+your-hf-repo/
+├── sd/
+│   ├── stable-diffusion-xl-base-1.0.safetensors
+│   └── sd-v1-5.safetensors
+├── vae/
+│   ├── sdxl_vae.safetensors
+│   └── sd-vae-ft-mse.safetensors
+├── controlnet/
+│   ├── control_v11p_sd15_canny.pth
+│   ├── control_v11p_sd15_openpose.pth
+│   └── control_v11p_sd15_depth.pth
+└── svd/
+    ├── svd.safetensors
+    └── svd_xt.safetensors
 ```
 
 ## Video Generation Strategy
@@ -189,4 +210,43 @@ For best results with music videos:
    - Complex camera movements
    - Special effects
    - Artistic transitions
+
+## Setting Up Models
+
+1. Create a new repository on Hugging Face
+2. Enable Git LFS for your repository
+3. Clone your empty repository:
+   ```bash
+   git clone https://huggingface.co/your-username/your-repo-name
+   cd your-repo-name
+   ```
+4. Create the directory structure:
+   ```bash
+   mkdir -p sd vae controlnet svd
+   ```
+5. Download models from links above and place in respective directories
+6. Push to Hugging Face:
+   ```bash
+   git lfs track "*.safetensors"
+   git lfs track "*.pth"
+   git add .
+   git commit -m "Add models"
+   git push
+   ```
+7. Update your `.env` file with:
+   ```
+   MODEL_REPO=your-username/your-repo-name
+   ```
+8. Run the download script:
+   ```bash
+   ./download-models.sh
+   ```
+
+The script will:
+- Clone your model repository
+- Create necessary directories
+- Distribute models to appropriate locations
+- Create symbolic links for each interface
+
+Note: Total download size will be approximately 20-25GB for all models.
 

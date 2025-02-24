@@ -14,6 +14,7 @@ git clone https://huggingface.co/$MODEL_REPO models-repo
 mkdir -p models/Stable-diffusion
 mkdir -p models/VAE
 mkdir -p models/ControlNet
+mkdir -p models/SVD
 mkdir -p comfy-models
 mkdir -p deforum-models
 mkdir -p flux-models
@@ -22,6 +23,7 @@ mkdir -p flux-models
 cp models-repo/sd/* models/Stable-diffusion/
 cp models-repo/vae/* models/VAE/
 cp models-repo/controlnet/* models/ControlNet/
+cp models-repo/svd/* models/SVD/
 
 # Create symbolic links for other interfaces
 ln -s $(pwd)/models/* comfy-models/
