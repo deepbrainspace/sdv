@@ -1,4 +1,7 @@
-# AI Video Generation Stack
+# Provision.sh
+used for provisioning an existing comfyUI container with huggingface models and cloudflare r2 storage.
+
+A AI Video Generation Stack
 
 A comprehensive Docker-based solution for AI video generation, combining state-of-the-art models and tools. This stack integrates:
 - Multiple Stable Diffusion models (SD 3.5, SDXL, specialized models)
