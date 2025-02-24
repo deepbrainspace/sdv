@@ -1,0 +1,59 @@
+{
+    "name": "What If Scenario Generator - Base",
+    "description": "Generate alternative scenarios with basic models",
+    "metadata": {
+        "version": "1.0",
+        "required_models": [
+            "sd_3.5_base",
+            "mm_sd_v15_v2",
+            "control_v11p_sd15_depth"
+        ],
+        "recommended_vram": "12GB",
+        "tags": ["story", "alternate-history", "scenario", "base"]
+    },
+    "default_prompt": {
+        "scenario_base": "ancient city with modern technology",
+        "variations": [
+            "roman colosseum with holographic displays",
+            "toga-wearing people using smartphones",
+            "ancient architecture with modern infrastructure"
+        ],
+        "style": "clear, detailed, balanced lighting",
+        "negative": "poor quality, inconsistent style, anachronistic elements"
+    },
+    "nodes": {
+        "1": {
+            "class_type": "CheckpointLoaderSimple",
+            "inputs": {
+                "ckpt_name": "sd_3.5_base.safetensors"
+            }
+        },
+        "2": {
+            "class_type": "AnimateDiffLoader",
+            "inputs": {
+                "motion_model": "mm_sd_v15_v2.ckpt"
+            }
+        },
+        "3": {
+            "class_type": "ControlNetLoader",
+            "inputs": {
+                "control_net_name": "control_v11p_sd15_depth.pth"
+            }
+        },
+        "4": {
+            "class_type": "CLIPTextEncode",
+            "inputs": {
+                "clip": ["1", 1],
+                "text": "roman colosseum with holographic displays, clear, detailed, balanced lighting"
+            }
+        },
+        "5": {
+            "class_type": "EmptyLatentImage",
+            "inputs": {
+                "batch_size": 8,
+                "height": 576,
+                "width": 768
+            }
+        }
+    }
+} 
