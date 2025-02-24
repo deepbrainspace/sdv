@@ -1,70 +1,43 @@
-services:
-  sd-webui:
-    build:
-      context: .
-      dockerfile: sd.Dockerfile
-    ports:
-      - "7860:7860"
-    volumes:
-      - ./models:/stable-diffusion-webui/models
-      - ./outputs:/stable-diffusion-webui/outputs
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
-    environment:
-      - NVIDIA_VISIBLE_DEVICES=all
 
+services:
   comfyui:
     build:
       context: .
-      dockerfile: comfy.Dockerfile
+      dockerfile: Dockerfile.comfy
     ports:
       - "8188:8188"
     volumes:
-      - ./comfy-models:/ComfyUI/models
-      - ./comfy-outputs:/ComfyUI/output
+      - ${STORAGE_PATH}/models:/models
+      - ${STORAGE_PATH}/output:/output
+      - ${STORAGE_PATH}/workflows:/workflows
+      - ./configs:/configs:ro
+    environment:
+      - HF_TOKEN=${HF_TOKEN}
+      - PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:512
     deploy:
       resources:
         reservations:
           devices:
             - driver: nvidia
-              count: 1
+              count: all
               capabilities: [gpu]
-
-  deforum:
+    
+  audio:
     build:
       context: .
-      dockerfile: deforum.Dockerfile
+      dockerfile: Dockerfile.audio
     ports:
-      - "7861:7860"
+      - "8080:8080"
     volumes:
-      - ./deforum-models:/stable-diffusion-webui/models
-      - ./deforum-outputs:/stable-diffusion-webui/outputs
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
+      - ${STORAGE_PATH}/output:/output
+    environment:
+      - HF_TOKEN=${HF_TOKEN}
 
-  flux:
+  compositor:
     build:
       context: .
-      dockerfile: flux.Dockerfile
-    ports:
-      - "7862:7860"
+      dockerfile: Dockerfile.compositor
     volumes:
-      - ./flux-models:/stable-diffusion-webui/models
-      - ./flux-outputs:/stable-diffusion-webui/outputs
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu] 
+      - ${STORAGE_PATH}/output:/output
+    environment:
+      - PYTHONUNBUFFERED=1

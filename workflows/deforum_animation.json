@@ -1,0 +1,23 @@
+{
+    "nodes": [
+        {
+            "title": "Deforum Animation",
+            "type": "DeforumAnimationSchedule",
+            "id": 1,
+            "inputs": {
+                "max_frames": 120,
+                "animation_prompts": {
+                    "0": "your character description here, detailed, high quality",
+                    "30": "your character in different pose, detailed, high quality",
+                    "60": "your character in another pose, detailed, high quality",
+                    "90": "your character in final pose, detailed, high quality"
+                },
+                "angle": "0:(0)",
+                "zoom": "0:(1.0)",
+                "translation_x": "0:(0)",
+                "translation_y": "0:(0)",
+                "noise_schedule": "0:(0.02)"
+            }
+        }
+    ]
+}

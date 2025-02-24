@@ -1,0 +1,22 @@
+{
+    "nodes": [
+        {
+            "title": "Flux Animation Settings",
+            "type": "FluxAnimationNode",
+            "id": 1,
+            "inputs": {
+                "fps": 24,
+                "motion_bucket_id": 127,
+                "cond_augmentation": true,
+                "decoding_t": 14,
+                "seed": 23,
+                "motion_model_settings": {
+                    "type": "fixed_motion",
+                    "parameters": {
+                        "motion_scale": 1.0
+                    }
+                }
+            }
+        }
+    ]
+}

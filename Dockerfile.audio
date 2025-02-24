@@ -1,0 +1,23 @@
+FROM python:3.10-slim
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y \
+    ffmpeg \
+    portaudio19-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install audio processing libraries
+RUN pip install \
+    bark-gui \
+    musicgen \
+    transformers \
+    torchaudio \
+    fastapi \
+    uvicorn \
+    python-multipart \
+    pyttsx3
+
+COPY audio_server.py .
+
+CMD ["uvicorn", "audio_server:app", "--host", "0.0.0.0", "--port", "8080"]
