@@ -1,0 +1,87 @@
+{
+    "name": "Character Animation with Lip Sync - Advanced",
+    "description": "Advanced character animation with lip sync and audio integration",
+    "metadata": {
+        "version": "1.0",
+        "required_models": [
+            "sd_3.5_large",
+            "mm_sd_v15_v2",
+            "control_v11p_sd15_openpose",
+            "control_v11p_sd15_depth"
+        ],
+        "recommended_vram": "24GB",
+        "tags": ["character", "animation", "lipsync", "audio"]
+    },
+    "default_prompt": {
+        "character": "beautiful woman with long flowing hair, detailed face, expressive eyes",
+        "action": "talking, moving naturally, emotional expression",
+        "style": "masterpiece, best quality, highly detailed",
+        "negative": "bad hands, bad face, bad quality, blurry, static pose"
+    },
+    "nodes": {
+        "1": {
+            "class_type": "CheckpointLoaderSimple",
+            "inputs": {
+                "ckpt_name": "sd_3.5_large.safetensors"
+            }
+        },
+        "2": {
+            "class_type": "ControlNetLoader",
+            "inputs": {
+                "control_net_name": "control_v11p_sd15_openpose.pth"
+            }
+        },
+        "3": {
+            "class_type": "AudioToLipSync",
+            "inputs": {
+                "audio_file": "input_audio.wav",
+                "frame_rate": 24,
+                "duration": 5
+            }
+        },
+        "4": {
+            "class_type": "AnimateDiffLoaderWithContext",
+            "inputs": {
+                "motion_model": "mm_sd_v15_v2.ckpt",
+                "context_options": ["FaceID", "MotionLocking"],
+                "context_length": 16
+            }
+        },
+        "5": {
+            "class_type": "CLIPTextEncode",
+            "inputs": {
+                "clip": ["1", 1],
+                "text": "beautiful woman with long flowing hair, detailed face, expressive eyes, talking, moving naturally, emotional expression, masterpiece, best quality"
+            }
+        },
+        "6": {
+            "class_type": "EmptyLatentImage",
+            "inputs": {
+                "batch_size": 24,
+                "height": 768,
+                "width": 512
+            }
+        },
+        "7": {
+            "class_type": "KSamplerAdvanced",
+            "inputs": {
+                "cfg": 7,
+                "denoise": 1,
+                "latent_image": ["6", 0],
+                "model": ["1", 0],
+                "negative": ["8", 0],
+                "positive": ["5", 0],
+                "scheduler": "karras",
+                "seed": 5647382,
+                "steps": 30
+            }
+        },
+        "8": {
+            "class_type": "CLIPTextEncode",
+            "inputs": {
+                "clip": ["1", 1],
+                "text": "bad hands, bad face, bad quality, blurry, static pose"
+            }
+        }
+    }
+} 

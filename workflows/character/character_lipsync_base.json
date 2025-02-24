@@ -1,0 +1,63 @@
+{
+    "name": "Character Animation with Lip Sync - Base",
+    "description": "Basic character animation with lip sync for lower VRAM usage",
+    "metadata": {
+        "version": "1.0",
+        "required_models": [
+            "sd_3.5_base",
+            "mm_sd_v15_v2",
+            "control_v11p_sd15_openpose"
+        ],
+        "recommended_vram": "12GB",
+        "tags": ["character", "animation", "lipsync", "audio", "base"]
+    },
+    "default_prompt": {
+        "character": "woman talking, face portrait, detailed features",
+        "action": "speaking, natural movement",
+        "style": "high quality",
+        "negative": "bad hands, bad face, blurry"
+    },
+    "nodes": {
+        "1": {
+            "class_type": "CheckpointLoaderSimple",
+            "inputs": {
+                "ckpt_name": "sd_3.5_base.safetensors"
+            }
+        },
+        "2": {
+            "class_type": "ControlNetLoader",
+            "inputs": {
+                "control_net_name": "control_v11p_sd15_openpose.pth"
+            }
+        },
+        "3": {
+            "class_type": "AudioToLipSync",
+            "inputs": {
+                "audio_file": "input_audio.wav",
+                "frame_rate": 24,
+                "duration": 5
+            }
+        },
+        "4": {
+            "class_type": "AnimateDiffLoader",
+            "inputs": {
+                "motion_model": "mm_sd_v15_v2.ckpt"
+            }
+        },
+        "5": {
+            "class_type": "CLIPTextEncode",
+            "inputs": {
+                "clip": ["1", 1],
+                "text": "woman talking, face portrait, detailed features, speaking, natural movement, high quality"
+            }
+        },
+        "6": {
+            "class_type": "EmptyLatentImage",
+            "inputs": {
+                "batch_size": 16,
+                "height": 512,
+                "width": 512
+            }
+        }
+    }
+} 

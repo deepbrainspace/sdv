@@ -17,6 +17,53 @@
         "style": "cinematic, dramatic lighting, golden hour"
     },
     "nodes": {
-        // Will provide full workflow
+        "1": {
+            "class_type": "CheckpointLoaderSimple",
+            "inputs": {
+                "ckpt_name": "sd_3.5_large.safetensors"
+            }
+        },
+        "2": {
+            "class_type": "SVDLoader",
+            "inputs": {
+                "model_name": "svd_xt.safetensors"
+            }
+        },
+        "3": {
+            "class_type": "CLIPTextEncode",
+            "inputs": {
+                "clip": ["1", 1],
+                "text": "magical forest path, sunbeams through trees, mystical atmosphere, cinematic, dramatic lighting, golden hour, masterpiece, best quality"
+            }
+        },
+        "4": {
+            "class_type": "EmptyLatentImage",
+            "inputs": {
+                "batch_size": 16,
+                "height": 768,
+                "width": 1024
+            }
+        },
+        "5": {
+            "class_type": "KSamplerAdvanced",
+            "inputs": {
+                "cfg": 8,
+                "denoise": 1,
+                "latent_image": ["4", 0],
+                "model": ["1", 0],
+                "negative": ["6", 0],
+                "positive": ["3", 0],
+                "scheduler": "karras",
+                "seed": 8566257,
+                "steps": 30
+            }
+        },
+        "6": {
+            "class_type": "CLIPTextEncode",
+            "inputs": {
+                "clip": ["1", 1],
+                "text": "bad quality, blurry, noise, shaky camera, poor lighting"
+            }
+        }
     }
 } 

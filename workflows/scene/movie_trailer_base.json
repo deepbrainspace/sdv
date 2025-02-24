@@ -1,0 +1,52 @@
+{
+    "name": "Movie Trailer Generator - Base",
+    "description": "Generate cinematic trailer-style scenes with basic models",
+    "metadata": {
+        "version": "1.0",
+        "required_models": [
+            "sd_3.5_base",
+            "mm_sd_v15_v2",
+            "control_v11p_sd15_depth"
+        ],
+        "recommended_vram": "12GB",
+        "tags": ["trailer", "cinematic", "base"]
+    },
+    "default_prompt": {
+        "scene_descriptions": [
+            "wide shot, city skyline, dramatic sunset",
+            "medium shot, character portrait, emotional",
+            "action scene, dynamic pose, intense moment"
+        ],
+        "style": "cinematic, dramatic lighting",
+        "negative": "blurry, low quality, bad composition"
+    },
+    "nodes": {
+        "1": {
+            "class_type": "CheckpointLoaderSimple",
+            "inputs": {
+                "ckpt_name": "sd_3.5_base.safetensors"
+            }
+        },
+        "2": {
+            "class_type": "AnimateDiffLoader",
+            "inputs": {
+                "motion_model": "mm_sd_v15_v2.ckpt"
+            }
+        },
+        "3": {
+            "class_type": "CLIPTextEncode",
+            "inputs": {
+                "clip": ["1", 1],
+                "text": "wide shot, city skyline, dramatic sunset, cinematic, dramatic lighting"
+            }
+        },
+        "4": {
+            "class_type": "EmptyLatentImage",
+            "inputs": {
+                "batch_size": 8,
+                "height": 576,
+                "width": 1024
+            }
+        }
+    }
+} 

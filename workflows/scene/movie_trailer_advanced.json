@@ -1,0 +1,37 @@
+{
+    "name": "Movie Trailer Generator - Advanced",
+    "description": "Generate cinematic trailer-style scenes with dramatic transitions",
+    "metadata": {
+        "version": "1.0",
+        "required_models": [
+            "sd_3.5_large",
+            "svd_xt",
+            "control_v11p_sd15_depth"
+        ],
+        "recommended_vram": "24GB",
+        "tags": ["trailer", "cinematic", "transitions"]
+    },
+    "default_prompt": {
+        "scene_descriptions": [
+            "epic wide shot, futuristic city, dramatic lighting",
+            "close up, determined hero face, emotional moment",
+            "action sequence, dynamic movement, intense atmosphere"
+        ],
+        "style": "movie trailer, cinematic, dramatic, high contrast",
+        "transitions": "fade, zoom, dramatic cuts"
+    },
+    "nodes": {
+        "1": {
+            "class_type": "CheckpointLoaderSimple",
+            "inputs": {
+                "ckpt_name": "sd_3.5_large.safetensors"
+            }
+        },
+        "2": {
+            "class_type": "SVDLoader",
+            "inputs": {
+                "model_name": "svd_xt.safetensors"
+            }
+        }
+    }
+} 
