@@ -2,22 +2,29 @@ FROM python:3.10-slim
 
 WORKDIR /app
 
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
+    git \
     ffmpeg \
-    portaudio19-dev \
+    espeak \
     && rm -rf /var/lib/apt/lists/*
 
-# Install audio processing libraries
-RUN pip install \
-    bark-gui \
-    musicgen \
-    transformers \
+# Install PyTorch and audio dependencies
+RUN pip3 install --no-cache-dir \
+    torch \
     torchaudio \
+    transformers \
     fastapi \
     uvicorn \
     python-multipart \
-    pyttsx3
+    pyttsx3 \
+    suno-bark \
+    audiocraft
 
+# Copy application code
 COPY audio_server.py .
+
+# Expose port for FastAPI
+EXPOSE 8080
 
 CMD ["uvicorn", "audio_server:app", "--host", "0.0.0.0", "--port", "8080"]

@@ -1,17 +1,17 @@
-FROM jrottenberg/ffmpeg:5.1-ubuntu2004
+FROM python:3.10-slim
 
 WORKDIR /app
 
 RUN apt-get update && apt-get install -y \
-    python3-pip \
-    python3 \
+    ffmpeg \
     && rm -rf /var/lib/apt/lists/*
 
 # Install video processing libraries
-RUN pip3 install \
+RUN pip3 install --no-cache-dir \
+    numpy>=1.25.0 \
     moviepy \
     srt \
-    whisper \
+    openai-whisper \
     fastapi \
     uvicorn
 

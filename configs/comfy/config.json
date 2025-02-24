@@ -1,0 +1,21 @@
+{
+    "model_paths": {
+        "checkpoints": "/models/checkpoints",
+        "configs": "/models/configs",
+        "loras": "/models/loras",
+        "vae": "/models/vae",
+        "upscale_models": "/models/upscalers",
+        "controlnet": "/models/controlnet",
+        "clip": "/models/text_encoders"
+    },
+    "output_path": "/output",
+    "temp_path": "/temp",
+    "disable_cuda_malloc": true,
+    "cuda_malloc_split": 512,
+    "preview_method": "auto",
+    "vram_optimization_level": 2,
+    "extra_model_paths_config": {
+        "animatediff": "/models/motion",
+        "svd": "/models/checkpoints"
+    }
+} 

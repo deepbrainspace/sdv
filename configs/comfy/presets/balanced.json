@@ -1,0 +1,16 @@
+{
+    "vram_optimization_level": 2,
+    "disable_cuda_malloc": true,
+    "cuda_malloc_split": 512,
+    "preview_method": "taesd",
+    "model_preferences": {
+        "default_model": "sd_3.5_base",
+        "high_quality_model": "sd_3.5_base",
+        "animation_model": "mm_sd_v15_v2"
+    },
+    "animation_settings": {
+        "batch_size": 8,
+        "num_inference_steps": 25,
+        "guidance_scale": 7.0
+    }
+} 

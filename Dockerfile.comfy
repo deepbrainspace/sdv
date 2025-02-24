@@ -22,7 +22,7 @@ RUN pip3 install -r requirements.txt
 RUN pip3 install opencv-python pillow transformers diffusers accelerate xformers
 RUN pip3 install einops mediapy decord av
 
-# Install additional dependencies for Deforum
+# Install additional dependencies for video processing
 RUN pip3 install \
     pytorch_lightning \
     omegaconf \
@@ -37,22 +37,46 @@ RUN pip3 install \
     timm
 
 # Install additional nodes
-RUN git clone https://github.com/Kosinkadink/ComfyUI-AnimateDiff-Evolved.git custom_nodes/ComfyUI-AnimateDiff
-RUN git clone https://github.com/Fannovel16/comfyui_controlnet_aux.git custom_nodes/comfyui_controlnet_aux
-RUN git clone https://github.com/ltdrdata/ComfyUI-Manager.git custom_nodes/ComfyUI-Manager
-RUN git clone https://github.com/cubiq/ComfyUI_IPAdapter_plus.git custom_nodes/ComfyUI_IPAdapter_plus
-RUN git clone https://github.com/thecooltechguy/ComfyUI-Stable-Video-Diffusion.git custom_nodes/ComfyUI-SVD
-RUN git clone https://github.com/deforum-art/deforum-comfy.git custom_nodes/deforum-comfy
-RUN git clone https://github.com/Pollinations/flux.git custom_nodes/flux
+WORKDIR /app/custom_nodes
 
-# Install Flux dependencies
-WORKDIR /app/custom_nodes/flux
-RUN pip install -r requirements.txt
+# Core video generation nodes
+RUN git clone https://github.com/Kosinkadink/ComfyUI-AnimateDiff-Evolved.git ComfyUI-AnimateDiff
+RUN git clone https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite.git
+RUN git clone https://github.com/Fannovel16/ComfyUI-Frame-Interpolation.git
+RUN git clone https://github.com/THtianhao/ComfyUI-Deforum-Stable.git ComfyUI-Deforum
+RUN git clone https://github.com/Stability-AI/stability-ComfyUI-nodes.git stability-nodes  # New Flux 1.1
+
+# Control and enhancement nodes
+RUN git clone https://github.com/Fannovel16/comfyui_controlnet_aux.git
+RUN git clone https://github.com/Kosinkadink/ComfyUI-Advanced-ControlNet.git
+RUN git clone https://github.com/cubiq/ComfyUI_IPAdapter_plus.git
+
+# Audio and scheduling
+RUN git clone https://github.com/a1lazydog/ComfyUI-AudioScheduler.git
+RUN git clone https://github.com/Fannovel16/ComfyUI-Video-Matting.git
+
+# Utility and workflow nodes
+RUN git clone https://github.com/ltdrdata/ComfyUI-Manager.git
+RUN git clone https://github.com/11cafe/comfyui-workspace-manager.git
+RUN git clone https://github.com/rgthree/rgthree-comfy.git
+RUN git clone https://github.com/cubiq/ComfyUI_essentials.git
+RUN git clone https://github.com/WASasquatch/was-node-suite-comfyui.git
+RUN git clone https://github.com/ltdrdata/ComfyUI-Impact-Pack.git
+
+# Install node dependencies
+RUN find . -name "requirements.txt" -exec pip install -r {} \;
+
 WORKDIR /app
 
 # Setup model directories
-RUN mkdir -p /models/{checkpoints,loras,embeddings,motion,controlnet}
+RUN mkdir -p /models/{checkpoints,loras,embeddings,motion,controlnet,upscalers}
+
+# Create config directory
+RUN mkdir -p /app/configs
+
+# Copy configs
+COPY configs/comfy/* /app/configs/
 
 EXPOSE 8188
 
-CMD ["python3", "main.py", "--listen", "0.0.0.0", "--port", "8188"]
+CMD ["python3", "main.py", "--listen", "0.0.0.0", "--port", "8188", "--output-directory", "/output"]

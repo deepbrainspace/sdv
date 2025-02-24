@@ -1,6 +1,197 @@
 # AI Video Generation Stack
 
-A complete Docker-based stack for generating AI videos with stable characters, animations, audio narration, and music. This setup integrates ComfyUI, Stable Diffusion, AnimateDiff, Deforum, Flux, and audio processing tools in a unified workflow.
+A comprehensive Docker-based solution for AI video generation, combining state-of-the-art models and tools. This stack integrates:
+- Multiple Stable Diffusion models (SD 3.5, SDXL, specialized models)
+- Advanced video generation (AnimateDiff, SVD, Deforum)
+- Audio generation and synchronization
+- Professional-grade enhancements (ControlNet, Frame Interpolation)
+
+All accessible through a unified ComfyUI interface, designed for both beginners and advanced users.
+
+Key Features:
+- One-click setup with all required models
+- Multiple video generation methods
+- Integrated audio processing
+- Optimized for different hardware configurations
+- Pre-configured workflows for common use cases
+
+## System Requirements
+
+### Hardware Requirements
+1. **GPU**
+   - Minimum: NVIDIA GPU with 16GB VRAM
+   - Recommended: NVIDIA GPU with 24GB VRAM
+   - Optimal: NVIDIA GPU with 32GB+ VRAM
+   
+   VRAM Usage Breakdown:
+   - Base Models:
+     - SD 3.5 Base: ~8GB
+     - SD 3.5 Large: ~12-16GB
+     - SDXL: ~12GB
+   - Video Generation:
+     - AnimateDiff: +4-6GB
+     - ControlNet: +2-4GB per model
+     - Frame Interpolation: +2GB
+     - SVD: ~8GB
+
+2. **Storage**
+   Total Required: ~200GB
+   - Models (~175GB):
+     - Base SD Models: 50GB
+       • SD 3.5 Base/Large: 12GB
+       • SDXL Base/Refiner: 13GB
+     - Alternative Models: 25GB
+       • Runway v2: 5.5GB
+       • Hailuo v11: 4GB
+       • Luma v1: 4GB
+     - Video Models: 45GB
+       • AnimateDiff: 5GB
+       • SVD-XT: 18GB
+     - ControlNet: 30GB
+     - Text Encoders: 15GB
+     - Upscalers: 10GB
+   - Working Space: 25GB minimum
+   - Generated Content: 50GB recommended
+
+3. **RAM**
+   - Minimum: 16GB
+   - Recommended: 32GB
+   - Optimal: 64GB
+
+### Installed Components
+
+1. **Core Models**
+   - SD 3.5 Base & Large
+   - SDXL Base & Refiner
+   - Specialized Models:
+     - Runway v2 (Photorealism)
+     - Hailuo v11 (Anime/Illustration)
+     - Luma v1 (3D/XR)
+
+2. **Video Generation**
+   - AnimateDiff (Character Animation)
+   - SVD-XT (Video-to-Video)
+   - Frame Interpolation
+   - Motion Tracking
+
+3. **Enhancement Tools**
+   - ControlNet Suite
+   - IP-Adapter Plus
+   - Advanced Upscalers
+   - Video Matting
+
+4. **ComfyUI Extensions**
+   - Workflow Management
+   - Advanced Controls
+   - Audio Synchronization
+   - Video Processing
+
+## Usage Configurations
+
+### VRAM Optimization Presets
+
+1. **High Quality Mode** (24GB+ VRAM)
+   ```json
+   {
+     "vram_optimization_level": 0,
+     "disable_cuda_malloc": false,
+     "preview_method": "auto"
+   }
+   ```
+
+2. **Balanced Mode** (16GB VRAM)
+   ```json
+   {
+     "vram_optimization_level": 2,
+     "disable_cuda_malloc": true,
+     "cuda_malloc_split": 512,
+     "preview_method": "taesd"
+   }
+   ```
+
+3. **Low Memory Mode** (12GB VRAM)
+   ```json
+   {
+     "vram_optimization_level": 3,
+     "disable_cuda_malloc": true,
+     "cuda_malloc_split": 256,
+     "preview_method": "none"
+   }
+   ```
+
+### Pre-installed Workflows
+
+Located in `/workflows`:
+1. Character Animation
+   - Basic movement
+   - Lip sync
+   - Full body animation
+
+2. Scene Generation
+   - Background creation
+   - Environment animation
+   - Lighting effects
+
+3. Video Enhancement
+   - Frame interpolation
+   - Super resolution
+   - Style transfer
+
+4. Audio Integration
+   - Voice generation
+   - Music sync
+   - Sound effects
+
+## Model Selection Guide
+
+### Base Models
+1. **SD 3.5 Base**
+   - General purpose
+   - Best for: Quick iterations, testing
+   - VRAM: 8GB
+
+2. **SD 3.5 Large**
+   - Highest quality
+   - Best for: Final renders
+   - VRAM: 12-16GB
+
+3. **SDXL**
+   - High resolution
+   - Best for: Detailed scenes
+   - VRAM: 12GB
+
+### Specialized Models
+1. **Runway v2**
+   - Photorealistic results
+   - Good for: Real-world scenes
+
+2. **Hailuo v11**
+   - Anime/illustration
+   - Good for: Character animation
+
+3. **Luma v1**
+   - 3D-aware generation
+   - Good for: VR/AR content
+
+## Performance Tips
+
+1. **Memory Management**
+   - Use SD 3.5 Base for setup/testing
+   - Switch to Large for final renders
+   - Enable VAE tiling for large images
+   - Use appropriate VRAM optimization level
+
+2. **Video Generation**
+   - Start with small batch sizes
+   - Use motion vectors for consistency
+   - Enable frame interpolation last
+   - Cache intermediate results
+
+3. **Quality Optimization**
+   - Use ControlNet for stability
+   - Enable IP-Adapter for consistency
+   - Apply frame interpolation for smoothness
+   - Use video matting for clean edges
 
 ## Architecture Overview
 

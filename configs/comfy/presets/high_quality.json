@@ -1,0 +1,15 @@
+{
+    "vram_optimization_level": 0,
+    "disable_cuda_malloc": false,
+    "preview_method": "auto",
+    "model_preferences": {
+        "default_model": "sd_3.5_base",
+        "high_quality_model": "sd_3.5_large",
+        "animation_model": "mm_sd_v15_v2"
+    },
+    "animation_settings": {
+        "batch_size": 16,
+        "num_inference_steps": 30,
+        "guidance_scale": 7.5
+    }
+} 
