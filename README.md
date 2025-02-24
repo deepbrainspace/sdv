@@ -15,6 +15,65 @@ Key Features:
 - Optimized for different hardware configurations
 - Pre-configured workflows for common use cases
 
+## Setup Instructions
+
+### 1. Prerequisites
+- Docker and Docker Compose installed
+- NVIDIA GPU with appropriate drivers
+- Sufficient storage space (see Storage Requirements below)
+
+### 2. Environment Setup
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-repo/sdv.git
+   cd sdv
+   ```
+
+2. Create and configure your .env file:
+   ```bash
+   cp .env.example .env
+   ```
+
+3. Get your Hugging Face token:
+   - Go to https://huggingface.co/settings/tokens
+   - Click "New token"
+   - Select "read" access
+   - Copy the token (starts with "hf_")
+
+4. Edit your .env file:
+   ```env
+   HF_TOKEN=your_huggingface_token_here
+   STORAGE_PATH=/path/to/your/storage
+   AUDIO_MODEL=facebook/musicgen-small
+   ```
+
+### 3. Storage Setup
+Create the required storage directories:
+```bash
+mkdir -p ${STORAGE_PATH}/{models,output,workflows}
+mkdir -p ${STORAGE_PATH}/models/{checkpoints,loras,embeddings,motion,controlnet,upscalers}
+```
+
+### 4. Running the Stack
+1. Download the models:
+   ```bash
+   ./download-models.sh
+   ```
+
+2. Start the services:
+   ```bash
+   docker-compose up -d
+   ```
+
+3. Access the interface:
+   - ComfyUI: http://localhost:8188
+   - Model Manager: http://localhost:8189
+
+### 5. Troubleshooting
+- If model downloads fail, check your HF_TOKEN
+- For CUDA errors, ensure NVIDIA drivers are properly installed
+- Check storage permissions if getting write errors
+
 ## System Requirements
 
 ### Hardware Requirements
@@ -216,37 +275,6 @@ The stack consists of three main services:
    - Combines video and audio
    - Generates subtitles
    - Creates final output
-
-## Setup Instructions
-
-1. Clone this repository:
-```bash
-git clone 
-cd 
-```
-
-2. Create required directories:
-```bash
-mkdir -p models/{checkpoints,loras,embeddings,motion,controlnet}
-mkdir -p output workflows
-```
-
-3. Set up environment:
-```bash
-cp .env.example .env
-# Edit .env with your HF_TOKEN
-```
-
-4. Download models:
-```bash
-chmod +x download_models.sh
-./download_models.sh
-```
-
-5. Start the stack:
-```bash
-docker-compose up -d
-```
 
 ## Video Generation Methods
 
