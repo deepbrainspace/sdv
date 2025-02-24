@@ -14,11 +14,20 @@ echo "Downloading models..."
 
 # Base Stable Diffusion Models (approximately 50GB)
 echo "1. Downloading base models..."
-# SD 3.5
-wget -O ${STORAGE_PATH}/models/checkpoints/sd_3.5_base.safetensors \
-    "https://huggingface.co/stabilityai/stable-diffusion-3.5-base/resolve/main/sd3_base.safetensors"  # 4GB
-wget -O ${STORAGE_PATH}/models/checkpoints/sd_3.5_large.safetensors \
-    "https://huggingface.co/stabilityai/stable-diffusion-3.5-large/resolve/main/sd3_large.safetensors"  # 8GB
+
+# SD 3.5 (Gated model - requires acceptance of terms)
+echo "Attempting to download SD 3.5 models (requires HF login and acceptance of terms)..."
+wget --header="Authorization: Bearer ${HF_TOKEN}" \
+     -O ${STORAGE_PATH}/models/checkpoints/sd3.5_large.safetensors \
+     "https://huggingface.co/stabilityai/stable-diffusion-3.5-large/resolve/main/sd3.5_large.safetensors"
+
+# Fallback models in case SD 3.5 download fails
+if [ $? -ne 0 ]; then
+    echo "SD 3.5 download failed. Using fallback models..."
+    wget --header="Authorization: Bearer ${HF_TOKEN}" \
+         -O ${STORAGE_PATH}/models/checkpoints/v1-5-pruned.safetensors \
+         "https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned.safetensors"
+fi
 
 # SDXL Models
 wget -O ${STORAGE_PATH}/models/checkpoints/sd_xl_base_1.0.safetensors \
