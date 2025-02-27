@@ -1,18 +1,41 @@
 #!/bin/bash
 
-# Install rclone
+
+####################################################
+## CONFIGURATION SCRIPT FOR GPU SERVER
+####################################################
+
+
+####################################################
+# vast.ai setup tunnel
+####################################################
+# first restart comfyUI so it listens to all interfaces
+kill 1286 # or whatever the output of the ps aux | grep ComfyUI is
+cd /workspace/ComfyUI
+python main.py --listen 0.0.0.0 --port 18188 --disable-auto-launch --enable-cors-header &
+
+
+# then setup a ssh tunnel
+ssh -L 8888:127.0.0.1:18188 root@77.33.143.182 -p 10389
+
+# then browse to localhost:8888
+
+
+####################################################
+# rclone + cloudflare r2
+####################################################
 apt-get update
 apt-get install -y curl
 curl -O https://rclone.org/install.sh
 sudo bash install.sh
 rclone version
 
-export R2_ACCESS_KEY_ID="00000000000000000000000000000000"
-export R2_SECRET_ACCESS_KEY="00000000000000000000000000000000"
-export R2_ACCOUNT_ID="00000000000000000000000000000000"
+# for running on the server, so just run the contents of the .env file on the server instead of the below!
+source .env  
+
 
 # Configure rclone
-rclone config
+
 cat <<EOF >> ~/.config/rclone/rclone.conf
 [r2]
 type = s3
@@ -41,6 +64,10 @@ echo "comfyui:
 chown comfyui:comfyui /app/extra_model_paths.yaml
 chmod a+r /app/extra_model_paths.yaml
 
+
+####################################################
+# download models FOR cloudflare r2
+####################################################
 export DOWNLOAD_PATH="/mnt/r2-deepbrain"
 
 # Check for HF_TOKEN and STORAGE_PATH

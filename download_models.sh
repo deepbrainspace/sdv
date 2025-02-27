@@ -1,5 +1,9 @@
 #!/bin/bash
 
+############################################################################################################
+# TODO: go through the list below and consolidate to config_server.sh so we can have them in the r2 bucket.
+############################################################################################################
+
 # Check for HF_TOKEN and STORAGE_PATH
 if [ -z "$HF_TOKEN" ] || [ -z "$STORAGE_PATH" ]; then
     echo "Please set HF_TOKEN and STORAGE_PATH environment variables"
