@@ -11,10 +11,6 @@ export R2_ACCESS_KEY_ID="00000000000000000000000000000000"
 export R2_SECRET_ACCESS_KEY="00000000000000000000000000000000"
 export R2_ACCOUNT_ID="00000000000000000000000000000000"
 
-# list r2:deepbrain
-rclone lsf r2:deepbrain
-rclone copy r2:deepbrain/models /ComfyUI/models --progress
-
 # Configure rclone
 rclone config
 cat <<EOF >> ~/.config/rclone/rclone.conf
@@ -28,6 +24,22 @@ endpoint = https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com
 acl = private
 EOF
 
+# Create directories
+mkdir -p /workspace/storage/output-videos
+mkdir -p /workspace/ComfyUI/models/{checkpoints,loras,embeddings,motion,controlnet,upscalers,text_encoders}
+
+# list r2:deepbrain
+rclone lsf r2:deepbrain
+rclone copy r2:deepbrain/models /workspace/ComfyUI/ --progress
+
+# Create extra_model_paths.yaml
+echo "comfyui:
+  base_path: /workspace/ComfyUI
+  checkpoints: checkpoints/
+  models: models/
+  vae: vae/" > /app/extra_model_paths.yaml
+chown comfyui:comfyui /app/extra_model_paths.yaml
+chmod a+r /app/extra_model_paths.yaml
 
 export DOWNLOAD_PATH="/mnt/r2-deepbrain"
 
