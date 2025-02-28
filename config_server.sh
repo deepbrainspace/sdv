@@ -54,6 +54,7 @@ mkdir -p /workspace/ComfyUI/models/{checkpoints,loras,embeddings,motion,controln
 # list r2:deepbrain
 rclone lsf r2:deepbrain
 rclone copy r2:deepbrain/models /workspace/ComfyUI/ --progress
+rclone copy r2:deepbrain/custom_nodes /workspace/ComfyUI/custom_nodes/ --progress
 
 # Create extra_model_paths.yaml
 echo "comfyui:
