@@ -1,0 +1,8 @@
+repos:
+- repo: local
+  hooks:
+  - id: check-git-crypt
+    name: Check git-crypt encryption
+    entry: sh -c 'git-crypt status | grep -q "not encrypted" && exit 1 || exit 0'
+    language: system
+    files: \.env$
