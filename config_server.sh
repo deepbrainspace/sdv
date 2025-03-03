@@ -22,18 +22,6 @@ ssh -L 8888:127.0.0.1:18188 root@77.33.143.182 -p 10389
 
 
 ####################################################
-# install comfyui
-####################################################
-mkdir -p /workspace
-cd /workspace
-git clone https://github.com/Comfy-Org/ComfyUI.git
-cd ComfyUI
-
-cd custom_nodes
-git clone https://github.com/ltdrdata/ComfyUI-Manager comfyui-manager
-# restart comfyUI
-
-####################################################
 # rclone + cloudflare r2
 ####################################################
 apt-get update
@@ -86,6 +74,33 @@ chown comfyui:comfyui /app/extra_model_paths.yaml
 chmod a+r /app/extra_model_paths.yaml
 
 ####################################################
+# remove tmux (vast.ai)
+####################################################
+touch ~/.no_auto_tmux
+
+git config --global --add safe.directory /workspace/ComfyUI
+git fetch
+ git config --global --add safe.directory /workspace/ComfyUI/custom_nodes/ComfyUI-Manager
+
+####################################################
+# install comfyui
+####################################################
+
+mkdir -p /workspace
+cd /workspace
+git clone https://github.com/Comfy-Org/ComfyUI.git
+git clone git@github.com:comfyanonymous/ComfyUI.git
+cd ComfyUI
+
+cd custom_nodes
+git clone https://github.com/ltdrdata/ComfyUI-Manager comfyui-manager
+git clone git@github.com:Comfy-Org/ComfyUI-Manager.git
+
+cd comfyui-manager
+uv pip install -r custom_nodes/comfyui-manager/requirements.txt
+# restart comfyUI
+
+####################################################
 # upgrade comfyui
 ####################################################
 git config --global --add safe.directory /workspace/ComfyUI
@@ -100,6 +115,14 @@ kill -9 <pid>
 python main.py --listen 0.0.0.0 --port 18188 --disable-auto-launch --enable-cors-header &
 # then setup a ssh tunnel
 ssh -L 8888:127.0.0.1:18188 root@77.33.143.182 -p 10389
+
+
+systemctl stop supervisor
+systemctl disable supervisor
+apt remove -y supervisor
+apt remove -y tmux
+apt autoremove -y
+apt clean
 
 ####################################################
 # runpod
