@@ -32,7 +32,7 @@ cd s3fs-fuse
 ./configure
 make
 sudo make install
-echo "<R2_ACCESS_KEY_ID>:<R2_SECRET_ACCESS_KEY>" | sudo tee /etc/passwd-s3fs
+echo "${R2_ACCESS_KEY_ID}:${R2_SECRET_ACCESS_KEY}" | sudo tee /etc/passwd-s3fs
 sudo chmod 600 /etc/passwd-s3fs
 
 mkdir -p /mnt/deepbrain
@@ -79,7 +79,8 @@ rclone copy r2:deepbrain/models/checkpoints /workspace/ComfyUI/models/checkpoint
 rclone copy r2:deepbrain/custom_nodes /workspace/ComfyUI/custom_nodes/ --progress
 rclone copy r2:deepbrain/models/vae /workspace/ComfyUI/models/vae/ --progress
 
- 
+
+sudo apt install -y ffmpeg
 
 # Create extra_model_paths.yaml
 echo "comfyui:
@@ -143,6 +144,7 @@ apt remove -y tmux
 apt autoremove -y
 apt clean
 
+
 ####################################################
 # runpod
 ####################################################
@@ -154,7 +156,11 @@ uv pip install -r requirements.txt
 uv pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
 nohup uv run python main.py --listen 0.0.0.0 --port 8188 &
 
-
+####################################################
+# upload outputs to r2
+####################################################
+rclone copy /workspace/ComfyUI/output r2:deepbrain/cloud/250304-dancinggirls/comfyUI-wan/outputs --progress
+rclone copy /workspace/ComfyUI/user/default/workflows r2:deepbrain/cloud/250304-dancinggirls/comfyUI-wan/workflows --progress
 ####################################################
 # download models FOR cloudflare r2
 ####################################################
