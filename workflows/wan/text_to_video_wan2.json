@@ -1,6 +1,6 @@
 {
-  "last_node_id": 48,
-  "last_link_id": 95,
+  "last_node_id": 49,
+  "last_link_id": 97,
   "nodes": [
     {
       "id": 8,
@@ -34,7 +34,8 @@
           "type": "IMAGE",
           "links": [
             56,
-            93
+            93,
+            96
           ],
           "slot_index": 0
         }
@@ -84,8 +85,8 @@
         190
       ],
       "size": [
-        870.8511352539062,
-        643.7430419921875
+        315,
+        130
       ],
       "flags": {},
       "order": 9,
@@ -100,10 +101,10 @@
       "outputs": [],
       "properties": {},
       "widgets_values": [
-        "ComfyUI",
-        16,
+        "BurningMan",
+        24,
         false,
-        90,
+        95,
         "default",
         ""
       ]
@@ -144,7 +145,7 @@
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
-        "色调艳丽，过曝，静态，细节模糊不清，字幕，风格，作品，画作，画面，静止，整体发灰，最差质量，低质量，JPEG压缩残留，丑陋的，残缺的，多余的手指，画得不好的手部，画得不好的脸部，畸形的，毁容的，形态畸形的肢体，手指融合，静止不动的画面，杂乱的背景，三条腿，背景人很多，倒着走"
+        "deformed, distorted bodies, unrealistic proportions, extra limbs, missing limbs, blurry, bad quality, poor anatomy, bad anatomy, disfigured, poorly drawn face, mutation, mutated, extra fingers, poorly drawn hands, disconnected limbs, mutation, mutated, ugly, disgusting, amputation"
       ],
       "color": "#322",
       "bgcolor": "#533"
@@ -215,7 +216,7 @@
       "widgets_values": [
         832,
         480,
-        33,
+        48,
         1
       ]
     },
@@ -223,8 +224,8 @@
       "id": 47,
       "type": "SaveWEBM",
       "pos": [
-        2367.213134765625,
-        193.6114959716797
+        1460,
+        350
       ],
       "size": [
         315,
@@ -245,10 +246,10 @@
         "Node name for S&R": "SaveWEBM"
       },
       "widgets_values": [
-        "ComfyUI",
+        "BurningMan",
         "vp9",
         24,
-        32
+        42
       ]
     },
     {
@@ -303,8 +304,8 @@
       "widgets_values": [
         82628696717253,
         "randomize",
-        30,
-        6,
+        40,
+        8,
         "uni_pc",
         "simple",
         1
@@ -417,10 +418,45 @@
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
-        "a fox moving quickly in a beautiful winter scenery nature trees mountains daytime tracking camera"
+        "group of attractive women with well-proportioned bodies at Burning Man festival, dancing in desert, art installations, fire performances, dust storm, sunset, warm lighting, realistic, detailed, moving camera, physically accurate, photorealistic, high detail, 4k"
       ],
       "color": "#232",
       "bgcolor": "#353"
+    },
+    {
+      "id": 49,
+      "type": "VideoWriter",
+      "pos": [
+        1460,
+        510
+      ],
+      "size": [
+        315,
+        130
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 96
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "VideoWriter"
+      },
+      "widgets_values": [
+        "BurningMan",
+        ".mp4",
+        "libx264",
+        24,
+        "medium",
+        18,
+        true
+      ]
     }
   ],
   "links": [
@@ -511,6 +547,14 @@
       3,
       0,
       "MODEL"
+    ],
+    [
+      96,
+      8,
+      0,
+      49,
+      0,
+      "IMAGE"
     ]
   ],
   "groups": [],

@@ -20,6 +20,23 @@ ssh -L 8888:127.0.0.1:18188 root@77.33.143.182 -p 10389
 
 # then browse to localhost:8888
 
+####################################################
+# s3fs cloudflare r2
+####################################################
+apt-get update
+apt-get install -y s3fs
+sudo apt install -y automake autotools-dev fuse libfuse-dev libcurl4-openssl-dev libxml2-dev pkg-config
+git clone git@github.com:s3fs-fuse/s3fs-fuse.git
+cd s3fs-fuse
+./autogen.sh
+./configure
+make
+sudo make install
+echo "<R2_ACCESS_KEY_ID>:<R2_SECRET_ACCESS_KEY>" | sudo tee /etc/passwd-s3fs
+sudo chmod 600 /etc/passwd-s3fs
+
+mkdir -p /mnt/deepbrain
+s3fs deepbrain /mnt/deepbrain -o url=https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com -o use_path_request_style -o passwd_file=/etc/passwd-s3fs
 
 ####################################################
 # rclone + cloudflare r2
@@ -80,7 +97,7 @@ touch ~/.no_auto_tmux
 
 git config --global --add safe.directory /workspace/ComfyUI
 git fetch
- git config --global --add safe.directory /workspace/ComfyUI/custom_nodes/ComfyUI-Manager
+git config --global --add safe.directory /workspace/ComfyUI/custom_nodes/ComfyUI-Manager
 
 ####################################################
 # install comfyui
@@ -90,15 +107,17 @@ mkdir -p /workspace
 cd /workspace
 git clone https://github.com/Comfy-Org/ComfyUI.git
 git clone git@github.com:comfyanonymous/ComfyUI.git
-cd ComfyUI
 
-cd custom_nodes
+cd ComfyUI/custom_nodes
 git clone https://github.com/ltdrdata/ComfyUI-Manager comfyui-manager
 git clone git@github.com:Comfy-Org/ComfyUI-Manager.git
 
-cd comfyui-manager
+cd ComfyUI-Manager/
 uv pip install -r custom_nodes/comfyui-manager/requirements.txt
 # restart comfyUI
+
+cd /workspace/ComfyUI/custom_nodes
+git clone git@github.com:Kosinkadink/ComfyUI-VideoHelperSuite.git
 
 ####################################################
 # upgrade comfyui
